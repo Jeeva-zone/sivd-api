@@ -37,7 +37,7 @@ html.dark .copy{background:#151821;color:#eee;border-color:#30333f}
 <section class="hero"><h1>Rebix Api</h1><p>AI's · Downloader's · Search's · Anime · Stalk's · Tool's · Nsfw's · Extra-Tool's · Random Images's</p><input id="search" class="search" placeholder="Search APIs" oninput="render()"></section>
 <div class="tabs" id="tabs"></div>
 <main id="apis"></main>
-<div class="catalog-note">Full Rebix API category catalogue. Every listed route includes a Try button so you can test it directly.</div>
+<div class="catalog-note">Expanded Rebix API catalogue reconstructed from the original category structure and public endpoint references. Try supports query-style GET routes, parameterless routes, and file upload POST testing where supported.</div>
 <section class="footer" id="about">© 2026 · SIVD API · A GitHub Pages documentation interface for the SIVD gateway.</section>
 <div class="modal" id="modal"><div class="dialog"><button class="close" onclick="closeModal()">✕</button><h3 id="modalTitle">Try API</h3><div id="fields"></div><button class="run" onclick="runApi()">Run request</button><button class="copy" onclick="copyUrl()">Copy API</button><div class="output" id="output">Waiting for request…</div></div></div>
 <script>
@@ -53,25 +53,25 @@ const themeBtnEl=document.getElementById('themeBtn');
 
 const groups=[
 {name:"Ai's",items:[
-['/api/gpt-5','GET','q'],['/api/gemini','GET','q'],['/api/cohere','GET','q'],['/api/gptlogic','GET','q, prompt'],['/api/copilot','GET','text'],['/api/qwen','GET','q'],['/api/llama-meta','GET','q']]},
+['/api/gpt-5','GET','q'],['/api/gptlogic','GET','q, prompt'],['/api/gptlogic-v2','GET','q, prompt'],['/api/claude-haiku','GET','q'],['/api/claude-session','GET','q, sessionId'],['/api/gemini','GET','q'],['/api/cohere','GET','q'],['/api/qwen','GET','q'],['/api/llama-meta','GET','q'],['/api/deepseek-v3','GET','q'],['/api/deepseek-r1','GET','q'],['/api/copilot','GET','text']]},
 {name:"Downloader's",items:[
-['/api/tiktok','GET','url'],['/api/tiktok2','GET','url'],['/api/facebook','GET','url'],['/api/ytplay','GET','q'],['/api/youtube','GET','url, format'],['/api/aio','GET','url'],['/api/igdl','GET','url, quality']]},
+['/api/tiktok','GET','url'],['/api/tiktok2','GET','url'],['/api/facebook','GET','url'],['/api/ytplay','GET','q'],['/api/youtube','GET','url, format'],['/api/ytdl','GET','url, format'],['/api/yta','GET','url'],['/api/ytv','GET','url'],['/api/ytau','GET','url'],['/api/ytvi','GET','url'],['/api/aio','GET','url'],['/api/igdl','GET','url, quality'],['/api/xdl','GET','url'],['/api/applemusic','GET','q'],['/api/gitclone','GET','url']]},
 {name:"Search's",items:[
-['/api/pinterest','GET','q'],['/api/npmsearch','GET','q']]},
+['/api/pinterest','GET','q'],['/api/npmsearch','GET','q'],['/api/tiktoksearch','GET','q'],['/api/spotifysearch','GET','q'],['/api/lyrics','GET','q'],['/api/lyrics2','GET','q'],['/api/yts','GET','q']]},
 {name:"Anime",items:[
-['/api/anime','GET','q']]},
+['/api/anisearch','GET','q'],['/api/anidl','GET','url'],['/api/animesearch','GET','q']]},
 {name:"Stalk's",items:[
-['/api/stalk','GET','q']]},
+['/api/stalk','GET','q'],['/api/tiktokstalk','GET','q']]},
 {name:"Tool's",items:[
-['/api/enhance','GET','url'],['/api/ssweb','GET','url'],['/api/upload','POST','multipart']]},
+['/api/apksearch','GET','q'],['/api/apkdl','GET','url'],['/api/cfbypass','GET','url, mode'],['/api/enhance','GET','url'],['/api/ocr','GET','url'],['/api/upload','POST','file']]},
 {name:"Nsfw's",items:[
-['/api/nsfw','GET','q']]},
+['/api/nsfw','GET','—'],['/api/nsfw/pussy','GET','—'],['/api/nsfw/cuckold','GET','—'],['/api/nsfw/yuri','GET','—'],['/api/nsfw/milf','GET','—'],['/api/nsfw/blowjob','GET','—']]},
 {name:"Extra-Tool's",items:[
-['/api/extra','GET','q'],['/api/bible-ai','GET','q']]},
+['/api/ssweb','GET','url, device'],['/api/tinyurl','GET','url'],['/api/translate','GET','text, to'],['/api/removebg','GET','url'],['/api/txt2img','GET','q'],['/api/bible-ai','GET','q']]},
 {name:"Random",items:[
-['/api/random','GET','q']]},
+['/api/random','GET','—'],['/api/randomquotes','GET','—'],['/api/facts','GET','—']]},
 {name:"Images's",items:[
-['/api/randomimage','GET','q'],['/api/bluearchive','GET','—']]},
+['/api/randomimage','GET','—'],['/api/waifu','GET','—'],['/api/cosplay','GET','—'],['/api/couplepp','GET','—'],['/api/bluearchive','GET','—'],['/api/wallpaper','GET','—'],['/api/wallpaper/programming','GET','—']]},
 ];
 
 let current=null;
@@ -122,7 +122,7 @@ function escapeHtml(value){
 function openModal(item){
   current=item;
   modalTitleEl.textContent='Try '+item[0];
-  const names=item[2].split(',').map(s=>s.trim()).filter(Boolean);
+  const names=item[2]==='—' ? [] : item[2].split(',').map(s=>s.trim()).filter(Boolean);
   fieldsEl.innerHTML=names.map(name=>
     '<div class="field">'+escapeHtml(name.toUpperCase())+'</div>'+
     '<input class="input" data-param="'+escapeHtml(name)+'" placeholder="Enter '+escapeHtml(name)+'">'
@@ -152,7 +152,17 @@ async function runApi(){
   const url=buildUrl();
   outputEl.textContent='Loading…';
   try{
-    const response=await fetch(url,{method:'GET',headers:{Accept:'application/json,text/plain,*/*'}});
+    let response;
+    if(current[1]==='POST' && current[2]==='file'){
+      const fileInput=document.querySelector('.file-input');
+      const file=fileInput && fileInput.files ? fileInput.files[0] : null;
+      if(!file){ outputEl.textContent='Choose a file first.'; return; }
+      const form=new FormData();
+      form.append('file',file);
+      response=await fetch(BASE+current[0],{method:'POST',body:form,headers:{Accept:'application/json,text/plain,*/*'}});
+    }else{
+      response=await fetch(url,{method:current[1],headers:{Accept:'application/json,text/plain,*/*'}});
+    }
     const text=await response.text();
     let body=text;
     try{body=JSON.stringify(JSON.parse(text),null,2)}catch{}
