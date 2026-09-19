@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta name="color-scheme" content="light dark">
 <title>SIVD API</title>
 <meta name="description" content="SIVD API — AI, Downloader, Search, Anime, Stalk, Tools, Extra Tools and Random Images.">
 <style>
@@ -17,10 +17,23 @@ main{max-width:1120px;margin:0 auto;padding:0 24px 70px}.category{margin:24px 0 
 .footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:#888;font-size:12px}
 .modal{position:fixed;inset:0;background:#17171b55;backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal.open{display:flex}.dialog{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 30px 80px #0003;padding:22px}.dialog h3{margin:0 0 5px}.close{float:right;border:0;background:#f1f1f3;border-radius:8px;padding:7px;cursor:pointer}.field{margin:18px 0 10px;color:#666;font-size:12px;font-weight:700}.input{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;outline:0}.run{margin-top:12px;background:#17171b;color:#fff;border:0;border-radius:9px;padding:10px 16px;cursor:pointer}.output{margin-top:16px;background:#111318;color:#e9e9ee;border-radius:10px;padding:14px;white-space:pre-wrap;overflow:auto;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}.copy{float:right;border:1px solid #ddd;background:#fff;border-radius:8px;padding:6px 9px;cursor:pointer}
 @media(max-width:720px){.nav{padding:0 15px}.navlinks{display:none}.hero{padding-top:36px}.hero h1{font-size:34px}.row{grid-template-columns:1fr 70px 75px}.row.head{display:none}.row .try{grid-column:4}.route{grid-column:1}.method{grid-column:2}.status{grid-column:3}.actions{display:none}}
+
+html.dark{color-scheme:dark}
+html.dark body{--bg:#090a0f;--card:#11131a;--text:#f1f1f5;--muted:#9b9daa;--line:#252834;--shadow:0 12px 40px #0008;background:linear-gradient(180deg,#0b0c11 0,#090a0f 55%,#07080c 100%)}
+html.dark .nav{background:#0b0c11dd;border-color:var(--line)}
+html.dark .navlinks{color:#b8b9c2}
+html.dark .btn,html.dark .tab,html.dark .search,html.dark .dialog,html.dark .close{background:#151821;color:var(--text);border-color:var(--line)}
+html.dark .tab.active,html.dark .run{background:#f1efff;color:#16131f;border-color:#f1efff}
+html.dark .row.head{background:#151821;color:#9698a4}
+html.dark .route{color:#dddde5}
+html.dark .method{background:#16273a;color:#80bfff}
+html.dark .status{color:#aaa}
+html.dark .output{background:#07080c;color:#eee}
+html.dark .copy{background:#151821;color:#eee;border-color:#30333f}
 </style>
 </head>
 <body>
-<nav class="nav"><div class="logo">Rebix Api</div><div class="navlinks"><a href="#apis">APIs</a><a href="#about">About</a><a href="https://github.com/Jeeva-zone/sivd-api">GitHub</a></div><div class="actions"><button class="btn" onclick="alert('SIVD API documentation')">Contact</button><button class="btn primary" onclick="document.getElementById('apis').scrollIntoView()">Updates</button></div></nav>
+<nav class="nav"><div class="logo">Rebix Api</div><div class="navlinks"><a href="#apis">APIs</a><a href="#about">About</a><a href="https://github.com/Jeeva-zone/sivd-api">GitHub</a></div><div class="actions"><button class="btn" id="themeBtn" onclick="toggleTheme()">🌙 Night</button><button class="btn primary" onclick="document.getElementById('apis').scrollIntoView()">APIs</button></div></nav>
 <section class="hero"><h1>Rebix Api</h1><p>AI's · Downloader's · Search's · Anime · Stalk's · Tool's · Extra-Tool's · Random Images's</p><input id="search" class="search" placeholder="Search APIs" oninput="render()"></section>
 <div class="tabs" id="tabs"></div>
 <main id="apis"></main>
@@ -48,6 +61,9 @@ function closeModal(){modal.classList.remove('open');}
 function buildUrl(){let names=current[2].split(',').map(s=>s.trim());let u=new URL(BASE+current[0]);names.forEach(n=>{let v=document.getElementById('f-'+n)?.value;if(v)u.searchParams.set(n,v)});return u.toString();}
 async function runApi(){if(!current)return;let u=buildUrl();output.textContent='Loading…';try{let r=await fetch(u);let t=await r.text();try{t=JSON.stringify(JSON.parse(t),null,2)}catch{}output.textContent=t}catch(e){output.textContent='Request failed. The upstream API may not allow browser CORS for this route.\n\n'+e}}
 function copyUrl(){navigator.clipboard?.writeText(buildUrl());}
-renderTabs();render();
+
+function applyTheme(){const saved=localStorage.getItem('sivd-theme');const dark=saved?saved==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',dark);document.getElementById('themeBtn').textContent=dark?'☀️ Day':'🌙 Night'}
+function toggleTheme(){const dark=!document.documentElement.classList.contains('dark');localStorage.setItem('sivd-theme',dark?'dark':'light');applyTheme()}
+applyTheme();renderTabs();render();
 </script>
 </body></html>
