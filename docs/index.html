@@ -64,7 +64,12 @@ const groups=[
 {name:"Extra-Tool's",items:[['/api/extra','GET','q']]},
 {name:"Random",items:[['/api/random','GET','q']]},
 {name:"Images's",items:[['/api/randomimage','GET','q']]},
-{name:"Additional Rebix routes",items:[['/api/dalle','GET','q'],['/api/bible-ai','GET','q'],['/api/deepseek-v3','GET','q'],['/api/npmsearch','GET','q']]}
+{name:"Additional Rebix routes",items:[
+['/api/dalle','GET','q'],['/api/bible-ai','GET','q'],['/api/deepseek-v3','GET','q'],['/api/npmsearch','GET','q'],
+['/api/tiktok2','GET','url'],['/api/igdl','GET','url, quality'],['/api/aio','GET','url'],['/api/youtube','GET','url, format'],
+['/api/upload','POST','multipart'],['/api/bluearchive','GET','—']]},
+{name:"Extended tools",items:[
+['/api/status','GET','—'],['/api/ping','GET','—'],['/api/health','GET','—']] }
 ];
 
 let current=null;
