@@ -7,7 +7,27 @@
 <meta name="description" content="SIVD API — AI, Downloader, Search, Anime, Stalk, Tools, Extra Tools and Random Images.">
 <style>
 :root{--bg:#f7f7f8;--card:#fff;--text:#202124;--muted:#70757a;--line:#e6e6e9;--accent:#7357ff;--accent2:#8f7cff;--shadow:0 12px 40px #20212412}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fff 0,#f7f7f8 55%,#f2f2f5 100%);color:var(--text)}button,input{font:inherit}a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fff 0,#f7f7f8 55%,#f2f2f5 100%);color:var(--text)}button,input,select{font:inherit}a{color:inherit;text-decoration:none}
+.ai-test{max-width:1120px;margin:8px auto 32px;padding:0 24px}
+.ai-test-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:14px 14px 0 0}
+.ai-test-head h2{margin:0 0 6px;font-size:18px}
+.ai-test-head p{margin:0;color:var(--muted);font-size:13px;max-width:760px;line-height:1.5}
+.ai-test-controls{display:flex;gap:10px;align-items:center;flex-shrink:0}
+.ai-test-controls label{font-size:12px;color:var(--muted)}
+.ai-test-controls select{margin-left:6px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 10px}
+.ai-test-note{padding:12px 16px;background:#fff9e8;border:1px solid #f0df9b;border-top:0;color:#705b16;font-size:12px;line-height:1.45}
+.ai-test-table{background:var(--card);border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;overflow:hidden}
+.ai-test-row{display:grid;grid-template-columns:minmax(220px,1.2fr) 120px 110px minmax(200px,1fr) 140px;gap:12px;align-items:center;padding:11px 14px;border-top:1px solid var(--line);font-size:13px}
+.ai-test-row.head{border-top:0;background:#fafafa;color:#777;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.ai-test-empty{padding:24px;text-align:center;color:var(--muted);font-size:13px}
+.ai-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:800}
+.ai-chip.ok{background:#e9f8f0;color:#167647}
+.ai-chip.rate{background:#fff0e8;color:#a1461b}
+.ai-chip.err{background:#f2efff;color:#644fe5}
+.ai-chip.stop{background:#f3f3f4;color:#666}
+.ai-route{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.ai-signal{font-size:11px;color:var(--muted);line-height:1.4}
+@media(max-width:850px){.ai-test-head{align-items:flex-start;flex-direction:column}.ai-test-controls{width:100%;justify-content:flex-end}.ai-test-row{grid-template-columns:1fr 70px 70px 1fr 100px}.ai-test-row.head{display:none}}
 .nav{position:sticky;top:0;z-index:20;background:#ffffffdc;backdrop-filter:blur(16px);border-bottom:1px solid var(--line);height:64px;display:flex;align-items:center;padding:0 24px;gap:28px}
 .logo{font-size:22px;font-weight:800;letter-spacing:-.04em}.navlinks{display:flex;gap:22px;color:#444;font-size:14px}.navlinks a{cursor:pointer}.navlinks a:hover{color:var(--accent)}
 .actions{margin-left:auto;display:flex;gap:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 14px;cursor:pointer}.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -30,12 +50,31 @@ html.dark .method{background:#16273a;color:#80bfff}
 html.dark .status{color:#aaa}
 html.dark .output{background:#07080c;color:#eee}
 html.dark .copy{background:#151821;color:#eee;border-color:#30333f}
+html.dark .ai-test-head,html.dark .ai-test-table,html.dark .ai-test-controls select{background:#151821;color:var(--text)}
+html.dark .ai-test-note{background:#2a2412;border-color:#5d4d1d;color:#d9c777}
 .catalog-note{margin:14px 0 30px;color:var(--muted);font-size:13px;text-align:center}.catalog-note a{color:inherit}\n</style>
 </head>
 <body>
-<nav class="nav"><div class="logo">Rebix Api</div><div class="navlinks"><a href="#apis">APIs</a><a href="#about">About</a><a href="https://github.com/Jeeva-zone/sivd-api">GitHub</a></div><div class="actions"><button class="btn" id="themeBtn" onclick="toggleTheme()">🌙 Night</button><button class="btn primary" onclick="document.getElementById('apis').scrollIntoView()">APIs</button></div></nav>
+<nav class="nav"><div class="logo">Rebix Api</div><div class="navlinks"><a href="#apis">APIs</a><a href="#about">About</a><a href="https://github.com/Jeeva-zone/sivd-api">GitHub</a></div><div class="actions"><button class="btn" id="themeBtn" onclick="toggleTheme()">🌙 Night</button><button class="btn" onclick="document.getElementById('aiTest').scrollIntoView({behavior:'smooth'})">🧪 AI Test</button><button class="btn primary" onclick="document.getElementById('apis').scrollIntoView()">APIs</button></div></nav>
 <section class="hero"><h1>Rebix Api</h1><p>AI's · Downloader's · Search's · Anime · Stalk's · Tool's · Nsfw's · Extra-Tool's · Random Images's</p><input id="search" class="search" placeholder="Search APIs" oninput="render()"></section>
 <div class="tabs" id="tabs"></div>
+<section class="ai-test" id="aiTest">
+  <div class="ai-test-head">
+    <div>
+      <h2>🧪 AI Limit & Availability Test</h2>
+      <p>Run small sequential probes against every AI route. The test records HTTP status, latency, and common rate-limit headers, then stops early when a route is throttled.</p>
+    </div>
+    <div class="ai-test-controls">
+      <label>Rounds <select id="aiRounds"><option value="1">1</option><option value="3" selected>3</option><option value="5">5</option></select></label>
+      <button class="btn primary" id="runAiTest" type="button">Run AI test</button>
+    </div>
+  </div>
+  <div class="ai-test-note">⚠️ This is an observational probe, not a guaranteed quota detector. A successful request does not prove the provider's daily/monthly limit. The test sends at most 5 requests per route and never runs requests concurrently.</div>
+  <div class="ai-test-table" id="aiTestTable">
+    <div class="ai-test-row head"><div>AI endpoint</div><div>Probe</div><div>Latency</div><div>Observed limit signal</div><div>Result</div></div>
+    <div class="ai-test-empty">No test has been run yet.</div>
+  </div>
+</section>
 <main id="apis"></main>
 <div class="catalog-note">Expanded Rebix API catalogue reconstructed from the original category structure and public endpoint references. Try supports query-style GET routes, parameterless routes, and file upload POST testing where supported.</div>
 <section class="footer" id="about">© 2026 · SIVD API · A GitHub Pages documentation interface for the SIVD gateway.</section>
@@ -50,6 +89,9 @@ const fieldsEl=document.getElementById('fields');
 const outputEl=document.getElementById('output');
 const searchEl=document.getElementById('search');
 const themeBtnEl=document.getElementById('themeBtn');
+const aiTestTableEl=document.getElementById('aiTestTable');
+const aiRoundsEl=document.getElementById('aiRounds');
+const runAiTestBtn=document.getElementById('runAiTest');
 
 const groups=[
 {name:"Ai's",items:[
@@ -76,6 +118,7 @@ const groups=[
 
 let current=null;
 let active='all';
+const aiGroups = groups.find(g=>g.name==="Ai's")?.items || [];
 
 function renderTabs(){
   tabsEl.innerHTML='<button class="tab active" data-group="all">All</button>'+
@@ -173,6 +216,83 @@ async function runApi(){
     outputEl.textContent='Browser request failed. This usually means the upstream API blocks cross-origin (CORS) requests.\n\n'+String(error);
   }
 }
+
+
+function setAiTestRows(rows){
+  aiTestTableEl.innerHTML='<div class="ai-test-row head"><div>AI endpoint</div><div>Probe</div><div>Latency</div><div>Observed limit signal</div><div>Result</div></div>'+
+    (rows.length?rows.map(r=>'<div class="ai-test-row"><div class="ai-route">'+escapeHtml(r.route)+'</div><div>'+r.probe+'</div><div>'+escapeHtml(r.latency)+'</div><div class="ai-signal">'+escapeHtml(r.signal)+'</div><div><span class="ai-chip '+r.cls+'">'+escapeHtml(r.result)+'</span></div></div>').join(''):'<div class="ai-test-empty">No test has been run yet.</div>');
+}
+
+function getRateSignals(headers){
+  const found=[];
+  headers.forEach((value,key)=>{
+    const k=key.toLowerCase();
+    if(k.includes('rate')||k==='retry-after'||k.includes('quota')){
+      found.push(k+': '+value);
+    }
+  });
+  return found;
+}
+
+async function runAiLimitTest(){
+  if(runAiTestBtn.disabled)return;
+  const rounds=Math.min(5,Math.max(1,Number(aiRoundsEl.value)||3));
+  runAiTestBtn.disabled=true;
+  runAiTestBtn.textContent='Testing…';
+  setAiTestRows(aiGroups.map(x=>({route:x[0],probe:'0/'+rounds,latency:'—',signal:'waiting',result:'Queued',cls:'stop'})));
+  const rows=[];
+  const prompt='Reply with exactly: OK';
+  for(let i=0;i<aiGroups.length;i++){
+    const item=aiGroups[i];
+    let completed=0;
+    let lastSignal='';
+    let stopped=false;
+    let lastResult='No response';
+    let lastCls='err';
+    let totalMs=0;
+    for(let n=1;n<=rounds;n++){
+      const started=performance.now();
+      try{
+        const u=new URL(BASE+item[0]);
+        const param=item[2].split(',')[0].trim();
+        if(param!=='—')u.searchParams.set(param,prompt);
+        const response=await fetch(u.toString(),{method:'GET',headers:{Accept:'application/json,text/plain,*/*'},cache:'no-store'});
+        const ms=Math.round(performance.now()-started);
+        totalMs+=ms;
+        completed=n;
+        const signals=getRateSignals(response.headers);
+        lastSignal=signals.length?signals.join(' | '):('HTTP '+response.status+(response.status===429?' — throttled':''));
+        lastResult='HTTP '+response.status;
+        lastCls=response.status===429?'rate':response.ok?'ok':'err';
+        rows.push({route:item[0],probe:n+'/'+rounds,latency:ms+' ms',signal:lastSignal,result:lastResult,cls:lastCls});
+        if(response.status===429 || response.status===403){
+          stopped=true;
+          break;
+        }
+      }catch(error){
+        const ms=Math.round(performance.now()-started);
+        totalMs+=ms;
+        lastResult='Browser/CORS error';
+        lastCls='err';
+        lastSignal=String(error);
+        rows.push({route:item[0],probe:n+'/'+rounds,latency:ms+' ms',signal:lastSignal,result:lastResult,cls:lastCls});
+        stopped=true;
+        break;
+      }
+      await new Promise(resolve=>setTimeout(resolve,1000));
+    }
+    const signal=stopped?lastSignal:(lastSignal||('No rate-limit header observed; '+completed+' successful probe(s)'));
+    const result=lastResult==='HTTP 200'||lastResult==='HTTP 201'||lastResult==='HTTP 204'?
+      'No throttle observed':'Stopped';
+    rows.push({route:item[0],probe:completed+'/'+rounds,latency:(completed?Math.round(totalMs/completed):0)+' ms avg',signal,result,cls:result==='No throttle observed'?'ok':'rate'});
+    setAiTestRows(rows.slice(-Math.max(2,aiGroups.length)));
+  }
+  runAiTestBtn.disabled=false;
+  runAiTestBtn.textContent='Run AI test';
+  setAiTestRows(rows.filter((r,idx)=>idx>=rows.length-aiGroups.length));
+}
+
+runAiTestBtn.addEventListener('click',runAiLimitTest);
 
 async function copyUrl(){
   const url=buildUrl();
