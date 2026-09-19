@@ -47,8 +47,12 @@ const groups=[
 {name:"Downloader's",items:[
 ['/api/tiktok','GET','url'],['/api/facebook','GET','url'],['/api/ytplay','GET','q']]},
 {name:"Search's",items:[['/api/pinterest','GET','q']]},
+{name:"Anime",items:[]},
+{name:"Stalk's",items:[]},
 {name:"Tool's",items:[['/api/enhance','GET','url'],['/api/ssweb','GET','url']]},
-{name:"Anime",items:[]},{name:"Stalk's",items:[]},{name:"Extra-Tool's",items:[]},{name:"Random Images's",items:[]}
+{name:"Nsfw's",items:[]},
+{name:"Extra-Tool's",items:[]},
+{name:"Random Images's",items:[]}
 ];
 let current=null;
 function allItems(){return groups.flatMap(g=>g.items.map(x=>({...x,group:g.name})));}
