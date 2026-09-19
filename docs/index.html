@@ -30,7 +30,7 @@ html.dark .method{background:#16273a;color:#80bfff}
 html.dark .status{color:#aaa}
 html.dark .output{background:#07080c;color:#eee}
 html.dark .copy{background:#151821;color:#eee;border-color:#30333f}
-</style>
+.catalog-note{margin:14px 0 30px;color:var(--muted);font-size:13px;text-align:center}.catalog-note a{color:inherit}\n</style>
 </head>
 <body>
 <nav class="nav"><div class="logo">Rebix Api</div><div class="navlinks"><a href="#apis">APIs</a><a href="#about">About</a><a href="https://github.com/Jeeva-zone/sivd-api">GitHub</a></div><div class="actions"><button class="btn" id="themeBtn" onclick="toggleTheme()">🌙 Night</button><button class="btn primary" onclick="document.getElementById('apis').scrollIntoView()">APIs</button></div></nav>
@@ -52,7 +52,7 @@ const groups=[
 {name:"Tool's",items:[['/api/enhance','GET','url'],['/api/ssweb','GET','url']]},
 {name:"Nsfw's",items:[]},
 {name:"Extra-Tool's",items:[]},
-{name:"Random Images's",items:[]}
+{name:"Random",items:[]},{name:"Images's",items:[]}
 ];
 let current=null;
 function allItems(){return groups.flatMap(g=>g.items.map(x=>({...x,group:g.name})));}
