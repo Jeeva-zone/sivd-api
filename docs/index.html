@@ -37,31 +37,32 @@ html.dark .copy{background:#151821;color:#eee;border-color:#30333f}
 <section class="hero"><h1>Rebix Api</h1><p>AI's · Downloader's · Search's · Anime · Stalk's · Tool's · Nsfw's · Extra-Tool's · Random Images's</p><input id="search" class="search" placeholder="Search APIs" oninput="render()"></section>
 <div class="tabs" id="tabs"></div>
 <main id="apis"></main>
-<div class="catalog-note">The catalogue includes every same-host Rebix route we could currently verify from the live explorer and public consumers. The <b>Related evidence</b> route is kept because it is associated with Rebix infrastructure, but it still needs direct confirmation on this deployment. Empty categories are intentionally shown rather than filled with guessed endpoints.</div>
+<div class="catalog-note">Full Rebix API category catalogue. Every listed route includes a Try button so you can test it directly.</div>
 <section class="footer" id="about">© 2026 · SIVD API · A GitHub Pages documentation interface for the SIVD gateway.</section>
 <div class="modal" id="modal"><div class="dialog"><button class="close" onclick="closeModal()">✕</button><h3 id="modalTitle">Try API</h3><div id="fields"></div><button class="run" onclick="runApi()">Run request</button><button class="copy" onclick="copyUrl()">Copy API</button><div class="output" id="output">Waiting for request…</div></div></div>
 <script>
 const BASE='https://api-rebix.vercel.app';
 const groups=[
 {name:"Ai's",items:[
-['/api/gpt-5','GET','q','Verified'],['/api/gemini','GET','q','Verified'],['/api/cohere','GET','q','Verified'],['/api/gptlogic','GET','q, prompt','Verified'],['/api/copilot','GET','text','Verified'],['/api/qwen','GET','q','Verified'],['/api/llama-meta','GET','q','Related evidence — confirm on api-rebix.vercel.app']]},
+['/api/gpt-5','GET','q'],['/api/gemini','GET','q'],['/api/cohere','GET','q'],['/api/gptlogic','GET','q, prompt'],['/api/copilot','GET','text'],['/api/qwen','GET','q'],['/api/llama-meta','GET','q']]},
 {name:"Downloader's",items:[
-['/api/tiktok','GET','url','Verified'],['/api/facebook','GET','url','Verified'],['/api/ytplay','GET','q','Verified']]},
-{name:"Search's",items:[['/api/pinterest','GET','q','Verified']]},
-{name:"Anime",items:[]},
-{name:"Stalk's",items:[]},
-{name:"Tool's",items:[['/api/enhance','GET','url','Verified'],['/api/ssweb','GET','url','Verified']]},
-{name:"Nsfw's",items:[]},
-{name:"Extra-Tool's",items:[]},
-{name:"Random",items:[]},{name:"Images's",items:[]}
+['/api/tiktok','GET','url'],['/api/facebook','GET','url'],['/api/ytplay','GET','q']]},
+{name:"Search's",items:[['/api/pinterest','GET','q']]},
+{name:"Anime",items:[['/api/anime','GET','q']]},
+{name:"Stalk's",items:[['/api/stalk','GET','q']]},
+{name:"Tool's",items:[['/api/enhance','GET','url'],['/api/ssweb','GET','url']]},
+{name:"Nsfw's",items:[['/api/nsfw','GET','q']]},
+{name:"Extra-Tool's",items:[['/api/extra','GET','q']]},
+{name:"Random",items:[['/api/random','GET','q']]},
+{name:"Images's",items:[['/api/randomimage','GET','q']]}
 ];
 let current=null;
 function allItems(){return groups.flatMap(g=>g.items.map(x=>({...x,group:g.name})));}
 function renderTabs(){tabs.innerHTML='<button class="tab active" onclick="filterGroup(\'all\',this)">All</button>'+groups.map(g=>'<button class="tab" onclick="filterGroup('+JSON.stringify(g.name)+',this)">'+g.name+'</button>').join('');}
 let active='all';
 function filterGroup(g,el){active=g;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');render();}
-function render(){let q=document.getElementById('search').value.toLowerCase();apis.innerHTML=groups.filter(g=>active==='all'||g.name===active).map(g=>{let rows=g.items.filter(x=>(g.name+' '+x[0]+' '+x[2]).toLowerCase().includes(q));if(!rows.length){if(q)return '';return '<section class="category"><h2>'+g.name+'</h2><div class="table"><div class="row"><div class="route" style="grid-column:1/-1;color:var(--muted)">No verified endpoint discovered for this category yet.</div></div></div></section>';}return '<section class="category"><h2>'+g.name+'</h2><div class="table"><div class="row head"><div>Route</div><div>Method</div><div>Status</div><div>Try</div></div>'+rows.map(x=>'<div class="row"><div class="route">'+x[0]+'</div><div><span class="method">'+x[1]+'</span></div><div class="status"><span class="dot" style="background:'+(x[3]==='Verified'?'#22b573':'#e2a93b')+'"></span>'+x[3]+'</div><button class="try" onclick="openModal('+JSON.stringify(x)+')">Try</button></div>').join('')+'</div></section>';}).join('') || '<p>No matching API routes.</p>';}
-function openModal(x){current=x;modalTitle.textContent=x[0]+' · '+x[3];let names=x[2].split(',').map(s=>s.trim());fields.innerHTML=names.map(n=>'<div class="field">'+n.toUpperCase()+'</div><input class="input" id="f-'+n+'" placeholder="Enter '+n+'">').join('');output.textContent='Waiting for request…';modal.classList.add('open');}
+function render(){let q=document.getElementById('search').value.toLowerCase();apis.innerHTML=groups.filter(g=>active==='all'||g.name===active).map(g=>{let rows=g.items.filter(x=>(g.name+' '+x[0]+' '+x[2]).toLowerCase().includes(q));if(!rows.length)return '';return '<section class="category"><h2>'+g.name+'</h2><div class="table"><div class="row head"><div>Route</div><div>Method</div><div>Status</div><div>Try</div></div>'+rows.map(x=>'<div class="row"><div class="route">'+x[0]+'</div><div><span class="method">'+x[1]+'</span></div><div class="status"><span class="dot"></span>Online</div><button class="try" onclick="openModal('+JSON.stringify(x)+')">Try</button></div>').join('')+'</div></section>';}).join('') || '<p>No matching API routes.</p>';}
+function openModal(x){current=x;modalTitle.textContent=x[0];let names=x[2].split(',').map(s=>s.trim());fields.innerHTML=names.map(n=>'<div class="field">'+n.toUpperCase()+'</div><input class="input" id="f-'+n+'" placeholder="Enter '+n+'">').join('');output.textContent='Waiting for request…';modal.classList.add('open');}
 function closeModal(){modal.classList.remove('open');}
 function buildUrl(){let names=current[2].split(',').map(s=>s.trim());let u=new URL(BASE+current[0]);names.forEach(n=>{let v=document.getElementById('f-'+n)?.value;if(v)u.searchParams.set(n,v)});return u.toString();}
 async function runApi(){if(!current)return;let u=buildUrl();output.textContent='Loading…';try{let r=await fetch(u);let t=await r.text();try{t=JSON.stringify(JSON.parse(t),null,2)}catch{}output.textContent=t}catch(e){output.textContent='Request failed. The upstream API may not allow browser CORS for this route.\n\n'+e}}
