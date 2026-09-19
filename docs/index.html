@@ -126,7 +126,9 @@ function openModal(item){
   fieldsEl.innerHTML=names.map(name=>
     '<div class="field">'+escapeHtml(name.toUpperCase())+'</div>'+
     '<input class="input" data-param="'+escapeHtml(name)+'" placeholder="Enter '+escapeHtml(name)+'">'
-  ).join('');
+  ).join('')+(item[1]==='POST' && item[2]==='file'
+    ? '<div class="field">FILE</div><input class="input file-input" type="file">'
+    : '');
   outputEl.textContent='Enter the parameter above, then press Run request.';
   modalEl.classList.add('open');
   const first=fieldsEl.querySelector('.input');
