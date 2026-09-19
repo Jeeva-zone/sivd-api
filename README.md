@@ -1,57 +1,105 @@
-# ✦ SIVD — AI Workspace
+# ✦ SIVD API
 
-A sleek responsive web interface for exploring the AI and utility APIs exposed by api-rebix.vercel.app.
+A clean, responsive web interface for exploring and testing the SIVD API catalogue, with a dedicated AI chatbot powered by Gemini and DeepSeek through the upstream Rebix API service.
 
-## ✨ Included
+## 🌐 Live Pages
 
-### Chat
-- GPT-5
-- Gemini
-- Cohere
-- GPT Logic
-- Copilot
-- Llama
+### 📚 SIVD API Catalogue
+Browse the available API routes, search endpoints, switch categories, and try supported requests directly from the browser.
 
-### Tools
-- Pinterest
-- TikTok
-- Facebook
-- YouTube
-- Enhance
-- Screenshot
+🔗 **https://jeeva-zone.github.io/sivd-api/**
+
+### 🤖 SIVD Chatbot
+Chat with **Gemini** or **DeepSeek V3** using a simple, responsive chat interface.
+
+🔗 **https://jeeva-zone.github.io/sivd-api/chatbot/**
+
+## ✨ Features
+
+### 📡 API Catalogue
+- 🤖 AI APIs
+- 📥 Downloader APIs
+- 🔎 Search APIs
+- 🎌 Anime APIs
+- 🕵️ Stalk APIs
+- 🛠️ Tool APIs
+- 🔞 NSFW APIs
+- 🧰 Extra Tool APIs
+- 🎲 Random APIs
+- 🖼️ Image APIs
+- 🔍 API search and category filtering
+- ▶️ Built-in **Try API** interface
+- 📤 File upload testing where supported
+- 🧪 AI limit & availability probing
+- 🌙 Light / dark theme
+
+### 🤖 AI Chatbot
+- 💎 Gemini support
+- 🧠 DeepSeek V3 support
+- 🔄 One-click provider switching
+- 💬 Conversation-style chat
+- 🆕 New Chat / reset
+- 💾 Session-based conversation history
+- ⏱️ Response latency display
+- 📱 Responsive mobile layout
+- 🌙 Light / dark theme
+- ⚠️ Clear HTTP and CORS error handling
 
 ## 🎨 Design
 
-- Minimal dark-first interface
-- Soft purple accent
-- Cute SIV mascot
-- Responsive Android phone layout
-- Large-screen / Android TV friendly layout
-- Keyboard-friendly composer
-- Chat/tool picker
-- Session conversation history
-- Graceful upstream error handling
+- ✦ SIVD-branded interface
+- 💜 Soft purple accent
+- 📱 Responsive mobile-friendly layout
+- 🖥️ Desktop-friendly UI
+- 🌙 Dark mode support
+- ⌨️ Keyboard-friendly interactions
+- ✨ Lightweight static GitHub Pages frontend
 
-## 🚀 Run
+## 🧩 Upstream API
 
-Install dependencies and run the Next.js development server.
+The frontend currently uses the upstream service:
 
-The project is structured for Vercel deployment.
+`https://api-rebix.vercel.app`
 
-## ⚠️ Upstream APIs
+The API service can change independently. Individual routes may become unavailable, rate-limited, renamed, or return different response formats.
 
-The upstream service can change independently. Routes may be unavailable, rate-limited, renamed, or return different response shapes. The server proxy normalizes common response fields and reports failures cleanly.
+The chatbot currently uses:
 
-## 🧭 Roadmap
+- Gemini → `/api/gemini?q=...`
+- DeepSeek V3 → `/api/deepseek-v3?q=...`
 
-- Telegram bot
-- Telegram Mini App
-- Persistent conversations
-- User accounts
-- API health dashboard
-- Streaming where supported
-- Rich media cards
-- Android TV remote/focus navigation
-- PWA install support
+Because the GitHub Pages chatbot sends requests directly from the browser, its operation depends on the upstream API allowing cross-origin (CORS) requests.
 
-Built as the first piece of the SIVD ecosystem. ✦
+## 🚀 GitHub Pages
+
+This repository publishes the static site from the `docs/` directory.
+
+Main catalogue:
+
+**https://jeeva-zone.github.io/sivd-api/**
+
+Chatbot:
+
+**https://jeeva-zone.github.io/sivd-api/chatbot/**
+
+## 🛠️ Development
+
+The repository contains the GitHub Pages frontend under `docs/`.
+
+For local development, serve the `docs/` directory with any static web server.
+
+Example:
+
+```bash
+python -m http.server 8080 --directory docs
+```
+
+Then open:
+
+`http://localhost:8080/`
+
+## ⚠️ Important
+
+This project is a frontend interface for upstream APIs. Availability, limits, response formats, and access policies are controlled by the upstream service and can change without notice.
+
+Built for the **SIVD ecosystem**. ✦
